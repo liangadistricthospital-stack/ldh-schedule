@@ -250,6 +250,7 @@
 </div>
 
 <script>
+const API_URL = "https://script.google.com/macros/s/AKfycbwG7AxPg-jYUxi7zihXGFtgBs2LOwoL_Kj4vFaRHoa_ghecWG7Ln87E12g6SQolWPPUgg/exec";
 const users = { eClaims:"1234", Nursing:"1234", Radiology:"1234", Laboratory:"1234", Pharmacy:"1234", Billing:"1234", Philhealth:"1234", Maintenance:"1234", Dietary:"1234", Malasakit:"1234", Security:"1234", Admin:"1234" };
 let currentDept="", currentDeptView="", scheduleData={};
 let departmentLogos = {}; 
@@ -404,7 +405,7 @@ function loadWeekData(){
 function prevWeek(){ saveWeekData(); currentSaturday.setDate(currentSaturday.getDate()-7); updateWeekDisplay(); }
 function nextWeek(){ saveWeekData(); currentSaturday.setDate(currentSaturday.getDate()+7); updateWeekDisplay(); }
 function exportExcel(){ XLSX.writeFile(XLSX.utils.table_to_book(document.getElementById("schedule")),"Schedule.xlsx"); }
-const API_URL = "https://script.google.com/macros/s/AKfycbw1774OjVXpiTmAbG4ksUe6tEpcwuvr_3vCJERxK3WaHRf-Ov2W3QYwUbqIQaLsGTjQ6w/execE";
 </script>
 </body>
+
 </html> 
