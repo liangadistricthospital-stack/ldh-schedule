@@ -290,6 +290,22 @@ function renderDeptButtons(){
     });
 }
 
+function saveToGoogleSheets() {
+  const payload = {
+    type: "schedule",
+    dateKey: currentSaturday.toDateString(),
+    department: currentDeptView,
+    payload: scheduleData[currentSaturday.toDateString()][currentDeptView]
+  };
+
+  fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify(payload)
+  })
+  .then(res => res.json())
+  .then(r => alert("Schedule saved to Google Sheets"));
+}
+
 function handleLogo(input, side) {
     if (currentDeptView !== currentDept) {
         alert("You can only change logos for your own department!");
@@ -409,3 +425,4 @@ function exportExcel(){ XLSX.writeFile(XLSX.utils.table_to_book(document.getElem
 </body>
 
 </html> 
+
