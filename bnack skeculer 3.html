@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department Schedule | LDH</title>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <style>
+        :root {
+            --primary: #10b981;
+            --primary-dark: #059669;
+            --secondary: #f59e0b;
+            --bg-body: #f8fafc;
+            --text-main: #1e293b;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        body { 
+            font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+            background: var(--bg-body); 
+            color: var(--text-main); 
+            margin: 0; 
+            padding: 20px; 
+            line-height: 1.5;
+        }
+
+        [contenteditable="true"]:hover { background: rgba(16, 185, 129, 0.05); border-radius: 4px; }
+        [contenteditable="true"]:focus { outline: 2px solid var(--primary); background: #fff; }
+
+        /* ========== LOGIN PAGE ========== */
+        #loginPage {
+            display: flex; justify-content: center; align-items: center; 
+            height: 100vh; background: linear-gradient(135deg, #ecfdf5 0%, #fffbeb 100%);
+        }
+        #loginBox {
+            background: #fff; padding: 40px; border-radius: 24px; 
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); text-align: center; width: 340px;
+        }
+        #loginBox h2 { margin-bottom: 24px; color: var(--primary-dark); font-weight: 800; }
+        #loginBox select, #loginBox input {
+            width: 100%; padding: 12px; margin-bottom: 16px; border-radius: 10px; 
+            border: 1px solid #e2e8f0; font-size: 14px; transition: all 0.2s;
+        }
+        #loginBox button {
+            width: 100%; padding: 12px; border: none; border-radius: 10px; 
+            background: var(--primary); color: white; cursor: pointer; font-weight: 600; font-size: 16px;
+        }
+        #loginBox button:hover { background: var(--primary-dark); transform: translateY(-1px); }
+
+        /* ========== HEADER WITH LOGOS ========== */
+        .header-box {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 30px; padding: 20px 40px;
+            background: white; border-radius: 20px; box-shadow: var(--shadow);
+        }
+        .header-content { flex-grow: 1; text-align: center; }
+        .header-box h1 { font-size: 24px; margin: 0; color: var(--primary-dark); letter-spacing: -0.5px; }
+        .header-box h2 { font-size: 16px; color: var(--secondary); margin: 5px 0; text-transform: uppercase; letter-spacing: 2px; }
+        #weekDisplay { font-size: 13px; font-weight: 600; color: #64748b; margin-top: 5px; }
+
+        .logo-container {
+            width: 100px; height: 100px; border: 2px dashed #e2e8f0;
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; overflow: hidden; position: relative; transition: all 0.2s;
+        }
+        .logo-container:hover { border-color: var(--primary); background: #f0fdf4; }
+        .logo-container img { width: 100%; height: 100%; object-fit: contain; display: block; }
+        .logo-placeholder { font-size: 10px; color: #94a3b8; text-align: center; padding: 5px; }
+
+        /* ========== LAYOUT ========== */
+        #mainPage { max-width: 1200px; margin: 0 auto; }
+
+        .dept-nav { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 25px; }
+        .dept-nav button {
+            padding: 8px 16px; border: 1px solid #e2e8f0; border-radius: 99px; 
+            background: white; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s;
+        }
+        .dept-nav button.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .action-bar { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+        .action-bar button {
+            padding: 10px 20px; border: none; border-radius: 12px; background: #1e293b; 
+            color: white; font-weight: 600; cursor: pointer; font-size: 13px; transition: all 0.2s;
+        }
+        .btn-accent { background: var(--secondary) !important; color: #000 !important; }
+
+        /* ========== TABLE ========== */
+        .table-container { background: white; border-radius: 20px; box-shadow: var(--shadow); overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th { background: #f8fafc; color: #64748b; font-weight: 600; text-transform: uppercase; padding: 15px; border-bottom: 2px solid #f1f5f9; }
+        td { padding: 0; border-bottom: 1px solid #f1f5f9; height: 50px; }
+        td:first-child { padding-left: 20px; font-weight: 600; color: #334155; width: 200px; }
+        
+        select { width: 100%; height: 50px; border: none; background: transparent; text-align: center; cursor: pointer; font-family: inherit; font-size: 13px; }
+
+        .shift-am { background: #dcfce7 !important; color: #166534; }
+        .shift-day { background: #fef9c3 !important; color: #854d0e; }
+        .shift-pm { background: #f3e8ff !important; color: #6b21a8; }
+        .shift-night { background: #fee2e2 !important; color: #991b1b; }
+        .shift-off { background: #f1f5f9 !important; color: #94a3b8; }
+        .shift-absent { background: #ffe4e6 !important; color: #be123c !important; font-weight: bold; }
+        
+        .btn-delete { color: #ef4444; background: none; border: none; cursor: pointer; font-weight: 600; }
+
+        .signatories { margin-top: 50px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 20px; }
+        .sig-block { border-top: 2px solid #e2e8f0; padding-top: 15px; }
+        .sig-label { font-size: 12px; color: #64748b; margin-bottom: 30px; }
+
+        /* ========== PRINT SETTINGS ========== */
+        @media print {
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            
+            #departmentButtons, .action-bar, .btn-delete, #loginPage, th:last-child, td:last-child, .logo-placeholder { 
+                display: none !important; 
+            }
+            
+            @page { size: landscape; margin: 10mm; }
+            body { background: white !important; padding: 0; margin: 0; font-size: 11pt; }
+            
+            /* Logo Fix */
+            .logo-container { 
+                border: none !important; 
+                display: block !important;
+                visibility: visible !important;
+                width: 100px !important;
+                height: 100px !important;
+            }
+            .logo-container img { 
+                display: block !important; 
+                max-width: 100% !important; 
+                max-height: 100% !important;
+            }
+
+            /* Square Borders for Print */
+            .header-box { 
+                padding: 10px 0 !important; 
+                box-shadow: none !important; 
+                border-radius: 0 !important; 
+            }
+            .table-container { 
+                border-radius: 0 !important; 
+                box-shadow: none !important; 
+                overflow: visible !important; 
+                border: none !important;
+            }
+            table { 
+                border: 2px solid #000 !important; 
+                border-radius: 0 !important;
+                border-collapse: collapse !important;
+            }
+            th, td { 
+                border: 1px solid #000 !important; 
+                border-radius: 0 !important;
+                height: 30px !important;
+            }
+            
+            select { -webkit-appearance: none; appearance: none; color: black !important; border: none !important; }
+            .signatories { margin-top: 30px !important; }
+            .sig-block { border-top: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="loginPage">
+    <div id="loginBox">
+        <h2>LDH Portal</h2>
+        <select id="departmentSelect">
+            <option value="">Select Department</option>
+            <option value="eClaims">eClaims</option>
+            <option value="Nursing">Nursing Service</option>
+            <option value="Radiology">Radiology</option>
+            <option value="Laboratory">Laboratory</option>
+            <option value="Pharmacy">Pharmacy</option>
+            <option value="Billing">Billing</option>
+            <option value="Philhealth">Philhealth</option>
+            <option value="Maintenance">Maintenance</option>
+            <option value="Dietary">Dietary</option>
+            <option value="Malasakit">Malasakit</option>
+            <option value="Security">Security</option>
+            <option value="Admin">Admin</option>
+        </select>
+        <input type="password" id="password" placeholder="Password" value="1234">
+        <button onclick="login()">Sign In</button>
+    </div>
+</div>
+
+<div id="mainPage" style="display:none;">
+    <div class="header-box">
+        <div class="logo-container" id="logoLeftContainer" onclick="document.getElementById('logoLeftInput').click()">
+            <input type="file" id="logoLeftInput" hidden accept="image/*" onchange="handleLogo(this, 'left')">
+            <div id="logoLeftDisplay" class="logo-placeholder">Upload<br>Logo</div>
+        </div>
+        
+        <div class="header-content">
+            <h1 contenteditable="true">LIANGA DISTRICT HOSPITAL</h1>
+            <h2 contenteditable="true">Schedule of Duty</h2>
+            <div id="deptHeader" style="font-weight: 700; color: #334155; margin-top: 5px;"></div>
+            <div id="weekDisplay"></div>
+        </div>
+
+        <div class="logo-container" id="logoRightContainer" onclick="document.getElementById('logoRightInput').click()">
+            <input type="file" id="logoRightInput" hidden accept="image/*" onchange="handleLogo(this, 'right')">
+            <div id="logoRightDisplay" class="logo-placeholder">Upload<br>Logo</div>
+        </div>
+    </div>
+
+    <div class="dept-nav" id="departmentButtons"></div>
+
+    <div class="action-bar">
+        <button onclick="prevWeek()">◀ Previous</button>
+        <button onclick="nextWeek()">Next ▶</button>
+        <button class="btn-accent" onclick="addRow()">+ Add Staff</button>
+        <button onclick="exportExcel()">Export</button>
+        <button onclick="window.print()">Print PDF</button>
+        <button onclick="logout()" style="background:#f1f5f9; color:#64748b;">Logout</button>
+    </div>
+
+    <div class="table-container">
+        <table id="schedule">
+            <thead>
+                <tr>
+                    <th>Staff Name</th>
+                    <th id="satHeader"></th>
+                    <th id="sunHeader"></th>
+                    <th id="monHeader"></th>
+                    <th id="tueHeader"></th>
+                    <th id="wedHeader"></th>
+                    <th id="thuHeader"></th>
+                    <th id="friHeader"></th>
+                    <th class="btn-delete"></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <div class="signatories">
+        <div class="sig-block">
+            <div class="sig-label">Prepared by:</div>
+            <strong contenteditable="true">Michael Dave T. Ebarle, RN</strong><br>
+            <span contenteditable="true" style="color:#64748b; font-size: 13px;">eClaims Processor / Nurse II</span>
+        </div>
+        <div class="sig-block">
+            <div class="sig-label">Approved by:</div>
+            <strong contenteditable="true">Glaiza Ann O. Tamondong, MD, DFM</strong><br>
+            <span contenteditable="true" style="color:#64748b; font-size: 13px;">Chief of Hospital I</span>
+        </div>
+    </div>
+</div>
+
+<script>
+const users = { eClaims:"1234", Nursing:"1234", Radiology:"1234", Laboratory:"1234", Pharmacy:"1234", Billing:"1234", Philhealth:"1234", Maintenance:"1234", Dietary:"1234", Malasakit:"1234", Security:"1234", Admin:"1234" };
+let currentDept="", currentDeptView="", scheduleData={};
+let departmentLogos = {}; 
+
+function login(){
+    const dept = document.getElementById("departmentSelect").value;
+    const pass = document.getElementById("password").value;
+    if(users[dept] && users[dept] === pass){
+        currentDept = dept; currentDeptView = dept;
+        document.getElementById("loginPage").style.display="none";
+        document.getElementById("mainPage").style.display="block";
+        document.getElementById("deptHeader").innerText = dept;
+        renderDeptButtons();
+        updateWeekDisplay();
+    } else { alert("Invalid credentials"); }
+}
+
+function logout(){ location.reload(); }
+
+const departments=["eClaims","Nursing","Radiology","Laboratory","Pharmacy","Billing","Philhealth","Maintenance","Dietary","Malasakit","Security"];
+
+function renderDeptButtons(){
+    const container=document.getElementById("departmentButtons");
+    container.innerHTML="";
+    departments.forEach(d=>{
+        const btn=document.createElement("button");
+        btn.innerText=d;
+        btn.className = (d===currentDeptView)?"active":"";
+        btn.onclick=()=>{
+            currentDeptView=d;
+            renderDeptButtons();
+            document.getElementById("deptHeader").innerText = d;
+            loadWeekData();
+            loadLogos(); 
+        };
+        container.appendChild(btn);
+    });
+}
+
+function handleLogo(input, side) {
+    if (currentDeptView !== currentDept) {
+        alert("You can only change logos for your own department!");
+        return;
+    }
+    const file = input.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            if (!departmentLogos[currentDept]) departmentLogos[currentDept] = {};
+            departmentLogos[currentDept][side] = e.target.result;
+            loadLogos();
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+function loadLogos() {
+    const leftDisplay = document.getElementById("logoLeftDisplay");
+    const rightDisplay = document.getElementById("logoRightDisplay");
+    const logos = departmentLogos[currentDeptView] || {};
+
+    if (logos.left) {
+        leftDisplay.classList.remove("logo-placeholder");
+        leftDisplay.innerHTML = `<img src="${logos.left}" alt="Left Logo">`;
+    } else {
+        leftDisplay.classList.add("logo-placeholder");
+        leftDisplay.innerHTML = "Upload<br>Logo";
+    }
+
+    if (logos.right) {
+        rightDisplay.classList.remove("logo-placeholder");
+        rightDisplay.innerHTML = `<img src="${logos.right}" alt="Right Logo">`;
+    } else {
+        rightDisplay.classList.add("logo-placeholder");
+        rightDisplay.innerHTML = "Upload<br>Logo";
+    }
+}
+
+let currentSaturday=new Date(); 
+currentSaturday.setDate(currentSaturday.getDate()-currentSaturday.getDay()+6);
+const shifts=["","7-3","8-5","3-11","11-7","OFF","HOLIDAY","LEAVE"];
+
+function updateWeekDisplay(){
+    const end=new Date(currentSaturday); end.setDate(end.getDate()+6);
+    document.getElementById("weekDisplay").innerText=`${currentSaturday.toLocaleDateString()} — ${end.toLocaleDateString()}`;
+    const ids=["satHeader","sunHeader","monHeader","tueHeader","wedHeader","thuHeader","friHeader"];
+    for(let i=0;i<7;i++){
+        const d=new Date(currentSaturday); d.setDate(d.getDate()+i);
+        document.getElementById(ids[i]).innerHTML=`${d.toLocaleDateString('en-US',{weekday:'short'})}<br><span style="font-size:11px; opacity:0.6">${d.getDate()}</span>`;
+    }
+    loadWeekData();
+    loadLogos();
+}
+
+function addRow(data={}){
+    const tr=document.createElement("tr");
+    const name=document.createElement("td");
+    name.contentEditable=(currentDeptView===currentDept);
+    name.innerText = data.name||"Staff Name";
+    name.oninput = saveWeekData;
+    tr.appendChild(name);
+
+    for(let i=0;i<7;i++){
+        const td=document.createElement("td");
+        const sel=document.createElement("select");
+        shifts.forEach(s=>sel.add(new Option(s,s)));
+        sel.value=data.shifts?.[i]||"";
+        sel.disabled = currentDeptView!==currentDept;
+        sel.onchange=()=>setShiftColor(sel,td);
+        setShiftColor(sel,td);
+        td.appendChild(sel);
+        tr.appendChild(td);
+    }
+
+    const act=document.createElement("td");
+    act.style.textAlign="center";
+    const del=document.createElement("button");
+    del.innerHTML="&times;"; del.className="btn-delete";
+    del.onclick=()=>{ tr.remove(); saveWeekData(); };
+    if(currentDeptView===currentDept) act.appendChild(del);
+    tr.appendChild(act);
+    document.querySelector("#schedule tbody").appendChild(tr);
+}
+
+function setShiftColor(sel,td){
+    td.classList.remove("shift-am", "shift-day", "shift-pm", "shift-night", "shift-off", "shift-absent");
+    if(sel.value==="7-3") td.classList.add("shift-am");
+    else if(sel.value==="8-5") td.classList.add("shift-day");
+    else if(sel.value==="3-11") td.classList.add("shift-pm");
+    else if(sel.value==="11-7") td.classList.add("shift-night");
+    else if(sel.value==="OFF") td.classList.add("shift-off"); 
+    else if(sel.value==="HOLIDAY" || sel.value==="LEAVE") td.classList.add("shift-absent");
+    saveWeekData();
+}
+
+function saveWeekData(){
+    const rows=[...document.querySelectorAll("#schedule tbody tr")];
+    if(!scheduleData[currentSaturday.toDateString()]) scheduleData[currentSaturday.toDateString()]={};
+    scheduleData[currentSaturday.toDateString()][currentDeptView]=rows.map(r=>({
+        name:r.cells[0].innerText,
+        shifts:[...Array(7)].map((_,i)=>r.cells[i+1].querySelector("select").value)
+    }));
+}
+
+function loadWeekData(){
+    const tbody=document.querySelector("#schedule tbody"); 
+    tbody.innerHTML="";
+    const rows = (scheduleData[currentSaturday.toDateString()]?.[currentDeptView]||Array(5).fill({}));
+    rows.forEach(r=>addRow(r));
+}
+
+function prevWeek(){ saveWeekData(); currentSaturday.setDate(currentSaturday.getDate()-7); updateWeekDisplay(); }
+function nextWeek(){ saveWeekData(); currentSaturday.setDate(currentSaturday.getDate()+7); updateWeekDisplay(); }
+function exportExcel(){ XLSX.writeFile(XLSX.utils.table_to_book(document.getElementById("schedule")),"Schedule.xlsx"); }
+const API_URL = "https://script.google.com/macros/s/AKfycbw1774OjVXpiTmAbG4ksUe6tEpcwuvr_3vCJERxK3WaHRf-Ov2W3QYwUbqIQaLsGTjQ6w/execE";
+</script>
+</body>
+</html> 
