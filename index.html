@@ -428,7 +428,7 @@ function renderDeptButtons(){
 }
 
 function handleLogo(input, side) {
-    if (currentDeptView !== currentDept) { alert("You can only change logos for your own department!"); return; }
+    if (currentDept !== "Admin" && currentDeptView !== currentDept) { alert("You can only change logos for your own department!"); return; }
     const file = input.files[0];
     if (file) {
         const reader = new FileReader();
@@ -493,7 +493,7 @@ function bulkFillRow(btn) {
 }
 
 function clearWeekShifts() {
-    if(currentDeptView !== currentDept) return;
+    if (currentDept !== "Admin" && currentDeptView !== currentDept) return;
     if(confirm("Clear all shifts & areas for this week?")) {
         document.querySelectorAll("#schedule tbody .shift-select").forEach(sel => { sel.value = ""; setShiftColor(sel, sel.parentElement.parentElement); });
         document.querySelectorAll("#schedule tbody .area-select").forEach(sel => { sel.value = ""; });
@@ -512,16 +512,17 @@ function checkAutoCompact() {
 }
 
 function addRow(data={}){
+    const isEditable = (currentDept === "Admin" || currentDeptView === currentDept);
     const tr=document.createElement("tr");
     const nameTd=document.createElement("td");
     const nameSpan = document.createElement("span");
     nameSpan.className = "staff-name";
-    nameSpan.contentEditable = (currentDeptView===currentDept);
+    nameSpan.contentEditable = (currentDept === "Admin" || currentDeptView === currentDept)
     nameSpan.innerText = data.name||"Staff Name";
     nameSpan.onblur = saveWeekData;
     const roleSpan = document.createElement("span");
     roleSpan.className = "staff-role";
-    roleSpan.contentEditable = (currentDeptView===currentDept);
+    roleSpan.contentEditable = (currentDept === "Admin" || currentDeptView === currentDept)
     roleSpan.innerText = data.role||"Role/Designation";
     roleSpan.onblur = saveWeekData;
     nameTd.appendChild(nameSpan); nameTd.appendChild(roleSpan); tr.appendChild(nameTd);
@@ -534,7 +535,7 @@ function addRow(data={}){
         sel.className = "shift-select";
         shifts.forEach(s=>sel.add(new Option(s,s)));
         sel.value=data.shifts?.[i]||"";
-        sel.disabled = currentDeptView!==currentDept;
+        sel.disabled = (currentDept !== "Admin" && currentDeptView !== currentDept)
         sel.onchange=()=>{ setShiftColor(sel,td); saveWeekData(); updateTallies(); };
         setShiftColor(sel,td); 
         container.appendChild(sel);
@@ -542,11 +543,11 @@ function addRow(data={}){
         areaSel.className = "area-select";
         assignmentAreas.forEach(a => areaSel.add(new Option(a, a)));
         areaSel.value = data.areas?.[i] || "";
-        areaSel.disabled = currentDeptView !== currentDept;
+        areaSel.disabled = (currentDept !== "Admin" && currentDeptView !== currentDept)
         areaSel.onchange = () => saveWeekData();
         container.appendChild(areaSel);
         td.appendChild(container);
-        if(i === 0 && currentDeptView === currentDept) {
+        if(i === 0 && isEditable) {
             const b = document.createElement("button");
             b.className = "bulk-fill-btn"; b.innerHTML = "⧉";
             b.onclick = () => bulkFillRow(b); td.appendChild(b);
@@ -555,14 +556,14 @@ function addRow(data={}){
     }
     const remTd = document.createElement("td");
     remTd.className = "remarks-cell";
-    remTd.contentEditable = (currentDeptView===currentDept);
+    remTd.contentEditable = isEditable;
     remTd.innerText = data.remarks || "";
     remTd.onblur = saveWeekData;
     tr.appendChild(remTd);
     const act=document.createElement("td"); act.style.textAlign="center";
     const del=document.createElement("button"); del.innerHTML="&times;"; del.className="btn-delete";
     del.onclick=()=>{ tr.remove(); saveWeekData(); updateTallies(); checkAutoCompact(); };
-    if(currentDeptView===currentDept) act.appendChild(del);
+    if(isEditable) act.appendChild(del);
     tr.appendChild(act);
     document.querySelector("#schedule tbody").appendChild(tr);
     updateTallies();
@@ -610,7 +611,7 @@ function saveWeekData(){
         areas: [...Array(7)].map((_,i)=>r.cells[i+1].querySelector(".area-select").value),
         remarks: r.cells[8].innerText
     }));
-    if(currentDeptView === currentDept) {
+    if(currentDept === "Admin" || currentDeptView === currentDept) {
         globalSignatories[currentDeptView] = {
             prepName: document.getElementById("preparedByName").innerText,
             prepTitle: document.getElementById("preparedByTitle").innerText,
@@ -626,7 +627,7 @@ function loadWeekData(){
     const weekKey = currentSaturday.toDateString();
     const rows = (scheduleData[weekKey]?.[currentDeptView]||[]);
     if(rows.length === 0) { for(let i=0; i<5; i++) addRow({}); } else { rows.forEach(r=>addRow(r)); }
-    const isEd = (currentDeptView === currentDept);
+    const isEd = (currentDept === "Admin" || currentDeptView === currentDept);
     document.getElementById("copyBtn").style.display = isEd ? "block" : "none";
     document.getElementById("deptNotes").contentEditable = isEd;
     document.getElementById("deptNotes").innerText = departmentNotes[currentDeptView] || "Enter department notes here...";
@@ -642,7 +643,7 @@ function loadWeekData(){
 }
 
 function copyStaffFromPrevWeek() {
-    if(currentDeptView !== currentDept) return;
+    if (currentDept !== "Admin" && currentDeptView !== currentDept) return;
     const prevDate = new Date(currentSaturday);
     prevDate.setDate(prevDate.getDate() - 7);
     const prevKey = prevDate.toDateString();
