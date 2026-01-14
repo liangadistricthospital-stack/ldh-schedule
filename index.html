@@ -195,39 +195,53 @@
         .compact-rows .area-select { height: 15px; font-size: 9px; }
 
         @media print {
-            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-            #departmentButtons, .action-bar, .btn-delete, #loginPage, th:last-child, td:last-child, .tally-container, .help-btn, .notes-container, .bulk-fill-btn, #loadingOverlay, .week-header-label, .copy-prev-link { display: none !important; }
-            .logo-placeholder { display: none !important; }
-            .logo-container { border: none !important; width: 100px !important; height: 100px !important; display: block !important; }
-            .logo-container img { display: block !important; max-width: 100px !important; max-height: 100px !important; }
-            @page { size: landscape; margin: 8mm; }
-            body { background: white !important; padding: 0; margin: 0; font-size: 9pt; color: black !important; }
-            .header-box { display: flex !important; flex-direction: row !important; justify-content: space-between !important; margin-bottom: 10px !important; padding: 10px 20px !important; box-shadow: none !important; border-radius: 0 !important; }
-            .header-box h1 { font-size: 18px !important; }
-            .header-box h2 { font-size: 12px !important; margin: 2px 0 !important; }
-            .header-box h1, .header-box h2, #deptHeader, #weekDisplay, th, .sig-block strong { color: black !important; }
-            .staff-name { color: black !important; }
-            .staff-role { color: #444 !important; font-size: 8px !important; }
-            .table-container { border-radius: 0 !important; box-shadow: none !important; overflow: visible !important; border: none !important; margin-bottom: 10px !important; }
-            table { border: 2px solid #000 !important; border-collapse: collapse !important; width: 100%; table-layout: auto; }
-            th { padding: 4px !important; font-size: 10px !important; }
-            th, td { border: 1px solid #000 !important; background: transparent !important; color: black !important; }
-            td { height: 40px !important; }
-            td:first-child { width: 160px !important; padding: 2px 8px !important; }
-            .remarks-cell { width: auto !important; font-size: 9px !important; }
-            select { -webkit-appearance: none; appearance: none; color: black !important; border: none !important; background: transparent !important; }
-            .shift-select { height: 16px !important; font-size: 9pt !important; }
-            .area-select { height: 14px !important; font-size: 8pt !important; font-weight: bold !important; display: block !important; }
-            
-            /* PRINT COMPACTING */
-            .compact-rows td { height: 26px !important; }
-            .compact-rows .shift-select { height: 14px !important; font-size: 8pt !important; }
-            .compact-rows .area-select { height: 12px !important; font-size: 7pt !important; }
-            .compact-rows .signatories { margin-top: 10px !important; gap: 10px !important; }
-            
-            .signatories { margin-top: 15px !important; gap: 20px !important; padding: 0 10px !important; page-break-inside: avoid; }
-            .sig-block { border-top: none !important; } 
-        }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    #departmentButtons, .action-bar, .btn-delete, #loginPage, th:last-child, td:last-child, .tally-container, .help-btn, .notes-container, .bulk-fill-btn, #loadingOverlay, .week-header-label, .copy-prev-link { display: none !important; }
+    .logo-placeholder { display: none !important; }
+    .logo-container { border: none !important; width: 100px !important; height: 100px !important; display: block !important; }
+    .logo-container img { display: block !important; max-width: 100px !important; max-height: 100px !important; }
+    @page { size: landscape; margin: 8mm; }
+    body { background: white !important; padding: 0; margin: 0; font-size: 9pt; color: black !important; }
+    .header-box { display: flex !important; flex-direction: row !important; justify-content: space-between !important; margin-bottom: 10px !important; padding: 10px 20px !important; box-shadow: none !important; border-radius: 0 !important; }
+    .header-box h1 { font-size: 18px !important; }
+    .header-box h2 { font-size: 12px !important; margin: 2px 0 !important; }
+    .header-box h1, .header-box h2, #deptHeader, #weekDisplay, th, .sig-block strong { color: black !important; }
+    .staff-name { color: black !important; }
+    .staff-role { color: #444 !important; font-size: 8px !important; }
+    .table-container { border-radius: 0 !important; box-shadow: none !important; overflow: visible !important; border: none !important; margin-bottom: 10px !important; }
+    table { border: 2px solid #000 !important; border-collapse: collapse !important; width: 100%; table-layout: auto; }
+    th { padding: 4px !important; font-size: 10px !important; }
+    th, td { border: 1px solid #000 !important; background: transparent !important; color: black !important; }
+    td { height: 40px !important; }
+    td:first-child { width: 160px !important; padding: 2px 8px !important; }
+    .remarks-cell { width: auto !important; font-size: 9px !important; }
+    
+    /* Base Select Styling for Print */
+    select { -webkit-appearance: none; appearance: none; border: none !important; background: transparent !important; color: black !important; }
+    .shift-select { height: 16px !important; font-size: 9pt !important; }
+    .area-select { height: 14px !important; font-size: 8pt !important; font-weight: bold !important; display: block !important; }
+    
+    /* ONLY IN PRINT: Bold and Red Overrides */
+    /* Bold OFF */
+    .shift-off .shift-select { 
+        font-weight: bold !important; 
+    }
+    
+    /* Bold and Red LEAVE / HOLIDAY */
+    .shift-absent .shift-select { 
+        color: #ef4444 !important; 
+        font-weight: bold !important; 
+    }
+
+    /* Print Compacting */
+    .compact-rows td { height: 26px !important; }
+    .compact-rows .shift-select { height: 14px !important; font-size: 8pt !important; }
+    .compact-rows .area-select { height: 12px !important; font-size: 7pt !important; }
+    .compact-rows .signatories { margin-top: 10px !important; gap: 10px !important; }
+    
+    .signatories { margin-top: 15px !important; gap: 20px !important; padding: 0 10px !important; page-break-inside: avoid; }
+    .sig-block { border-top: none !important; } 
+}
     </style>
 </head>
 <body>
