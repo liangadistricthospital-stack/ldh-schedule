@@ -25,7 +25,6 @@
             line-height: 1.5;
         }
 
-        /* ========== LOADING SPINNER STYLES ========== */
         #loadingOverlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -50,7 +49,6 @@
         [contenteditable="true"]:hover { background: rgba(16, 185, 129, 0.05); border-radius: 4px; }
         [contenteditable="true"]:focus { outline: 2px solid var(--primary); background: #fff; }
 
-        /* ========== LOGIN PAGE ========== */
         #loginPage {
             display: flex;
             justify-content: center; align-items: center; 
@@ -74,7 +72,6 @@
         }
         #loginBox button:hover { background: var(--primary-dark); transform: translateY(-1px); }
 
-        /* ========== HEADER WITH LOGOS ========== */
         .header-box {
             display: flex;
             align-items: center; justify-content: space-between;
@@ -115,17 +112,11 @@
         }
         .dept-nav button.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* ========== ACTION BAR ========== */
         .action-bar { 
             display: flex;
-            justify-content: space-between; 
-            align-items: center;
-            gap: 15px; 
-            margin-bottom: 10px; 
-            padding: 15px 25px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
+            justify-content: space-between; align-items: center;
+            gap: 15px; margin-bottom: 10px; padding: 15px 25px;
+            background: white; border-radius: 15px; box-shadow: var(--shadow);
         }
         .action-group { display: flex; gap: 8px; align-items: center; }
         .action-bar button {
@@ -136,63 +127,30 @@
         }
         .action-bar button:hover { background: #f8fafc; border-color: #cbd5e1; }
         .btn-primary { background: var(--primary) !important; color: white !important; border: none !important; }
-        .btn-primary:hover { background: var(--primary-dark) !important; }
         .btn-accent { background: var(--secondary) !important; color: #000 !important; border: none !important; }
         .btn-danger-outline { color: var(--danger) !important; border-color: #fee2e2 !important; }
-        .btn-danger-outline:hover { background: #fef2f2 !important; }
 
-        /* ========== NEW WEEK NAVIGATION HEADER ========== */
         .week-header-label {
             position: relative;
-            text-align: center;
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--primary-dark);
-            background: #fff;
-            padding: 15px;
-            border-radius: 12px 12px 0 0;
+            text-align: center; font-size: 18px; font-weight: 800; color: var(--primary-dark);
+            background: #fff; padding: 15px; border-radius: 12px 12px 0 0;
             border: 1px solid #e2e8f0;
-            border-bottom: none;
-            margin-top: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            border-bottom: none; margin-top: 20px; text-transform: uppercase; letter-spacing: 1px;
+            display: flex; justify-content: center; align-items: center;
         }
 
-        /* Aesthetic Copy Button Link */
         .copy-prev-link {
             position: absolute;
-            left: 20px;
-            font-size: 11px;
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            background: #ecfdf5;
-            padding: 4px 12px;
-            border-radius: 99px;
-            border: 1px solid #d1fae5;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-transform: none;
-            letter-spacing: 0;
-        }
-        .copy-prev-link:hover {
-            background: var(--primary);
-            color: white;
+            left: 20px; font-size: 11px; color: var(--primary); text-decoration: none;
+            font-weight: 600; background: #ecfdf5; padding: 4px 12px; border-radius: 99px;
+            border: 1px solid #d1fae5; cursor: pointer; transition: all 0.2s; text-transform: none; letter-spacing: 0;
         }
 
-        /* ========== TABLE ========== */
-        .table-container { background: white;
-            border-radius: 0 0 20px 20px; box-shadow: var(--shadow); overflow: hidden; margin-bottom: 20px;
-            border: 1px solid #e2e8f0;}
+        .table-container { background: white; border-radius: 0 0 20px 20px; box-shadow: var(--shadow); overflow: hidden; margin-bottom: 20px; border: 1px solid #e2e8f0;}
         table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }
-        th { background: #f8fafc; color: #64748b; font-weight: 600; text-transform: uppercase; padding: 10px;
-            border-bottom: 2px solid #f1f5f9; }
-        td { padding: 0; border-bottom: 1px solid #f1f5f9; height: 50px; text-align: center; }
+        th { background: #f8fafc; color: #64748b; font-weight: 600; text-transform: uppercase; padding: 10px; border-bottom: 2px solid #f1f5f9; }
+        td { padding: 0; border-bottom: 1px solid #f1f5f9; height: 50px; text-align: center; } /* Adjusted default height */
         
-        /* Column Widths */
         th:nth-child(1), td:nth-child(1) { width: 180px; text-align: left; padding: 8px 15px; }
         th:last-child, td:last-child { width: 50px; }
         .remarks-cell { width: 150px; font-size: 11px; text-align: left; padding: 5px; outline: none; }
@@ -200,9 +158,11 @@
         .staff-name { font-weight: 700; color: #334155; display: block; }
         .staff-role { font-size: 11px; color: #94a3b8; display: block; font-weight: 400; font-style: italic; }
 
-        select { width: 100%; height: 50px; border: none;
-            background: transparent; text-align: center; cursor: pointer; font-family: inherit; font-size: 13px;
-        }
+        .cell-stack { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; }
+
+        select { width: 100%; border: none; background: transparent; text-align: center; cursor: pointer; font-family: inherit; }
+        .shift-select { font-size: 13px; height: 25px; }
+        .area-select { font-size: 10px; color: #64748b; height: 20px; font-weight: normal; }
 
         .shift-am { background: #dcfce7; color: #166534; }
         .shift-day { background: #fef9c3; color: #854d0e; }
@@ -212,16 +172,7 @@
         .shift-absent { background: #ffe4e6; color: #be123c !important; font-weight: bold; }
         
         .btn-delete { color: #ef4444; background: none; border: none; cursor: pointer; font-weight: 600; }
-
-        /* ========== BULK FILL STYLE ========== */
-        .bulk-fill-btn {
-            position: absolute;
-            right: 2px; top: 50%; transform: translateY(-50%);
-            background: rgba(255,255,255,0.8); border: 1px solid #e2e8f0; 
-            border-radius: 4px; cursor: pointer; font-size: 10px;
-            padding: 2px 4px;
-            display: none; z-index: 5;
-        }
+        .bulk-fill-btn { position: absolute; right: 2px; top: 15px; background: rgba(255,255,255,0.8); border: 1px solid #e2e8f0; border-radius: 4px; cursor: pointer; font-size: 10px; padding: 2px 4px; display: none; z-index: 5; }
         td:nth-child(2):hover .bulk-fill-btn { display: block; }
         td:nth-child(2) { position: relative; }
 
@@ -236,24 +187,22 @@
         .tally-day-col { background: #f8fafc; padding: 8px; border-radius: 8px; border: 1px solid #f1f5f9; }
         #deptNotes { font-size: 13px; min-height: 80px; outline: none; }
 
-        /* ========== PRINT SETTINGS ========== */
+        /* AUTOMATIC ROW REDUCTION CLASSES */
+        .compact-rows td { height: 35px !important; }
+        .compact-rows .staff-name { font-size: 12px; }
+        .compact-rows .staff-role { font-size: 10px; }
+        .compact-rows .shift-select { height: 20px; font-size: 12px; }
+        .compact-rows .area-select { height: 15px; font-size: 9px; }
+
         @media print {
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-            #departmentButtons, .action-bar, .btn-delete, #loginPage, th:last-child, td:last-child, .tally-container, .help-btn, .notes-container, .bulk-fill-btn, #loadingOverlay, .week-header-label, .copy-prev-link { 
-                display: none !important;
-            }
+            #departmentButtons, .action-bar, .btn-delete, #loginPage, th:last-child, td:last-child, .tally-container, .help-btn, .notes-container, .bulk-fill-btn, #loadingOverlay, .week-header-label, .copy-prev-link { display: none !important; }
             .logo-placeholder { display: none !important; }
             .logo-container { border: none !important; width: 100px !important; height: 100px !important; display: block !important; }
             .logo-container img { display: block !important; max-width: 100px !important; max-height: 100px !important; }
-
             @page { size: landscape; margin: 8mm; }
             body { background: white !important; padding: 0; margin: 0; font-size: 9pt; color: black !important; }
-            
-            .header-box { 
-                display: flex !important; flex-direction: row !important; justify-content: space-between !important;
-                margin-bottom: 10px !important; padding: 10px 20px !important; 
-                box-shadow: none !important; border-radius: 0 !important;
-            }
+            .header-box { display: flex !important; flex-direction: row !important; justify-content: space-between !important; margin-bottom: 10px !important; padding: 10px 20px !important; box-shadow: none !important; border-radius: 0 !important; }
             .header-box h1 { font-size: 18px !important; }
             .header-box h2 { font-size: 12px !important; margin: 2px 0 !important; }
             .header-box h1, .header-box h2, #deptHeader, #weekDisplay, th, .sig-block strong { color: black !important; }
@@ -263,17 +212,19 @@
             table { border: 2px solid #000 !important; border-collapse: collapse !important; width: 100%; table-layout: auto; }
             th { padding: 4px !important; font-size: 10px !important; }
             th, td { border: 1px solid #000 !important; background: transparent !important; color: black !important; }
-            td { height: 28px !important; }
+            td { height: 40px !important; }
             td:first-child { width: 160px !important; padding: 2px 8px !important; }
             .remarks-cell { width: auto !important; font-size: 9px !important; }
-
-            /* Default select style for print */
-            select { -webkit-appearance: none; appearance: none; color: black !important; border: none !important; font-weight: normal; height: 28px !important; font-size: 10px !important; background: transparent !important;}
+            select { -webkit-appearance: none; appearance: none; color: black !important; border: none !important; background: transparent !important; }
+            .shift-select { height: 16px !important; font-size: 9pt !important; }
+            .area-select { height: 14px !important; font-size: 8pt !important; font-weight: bold !important; display: block !important; }
             
-            /* Specific Formatting for Shifts in Print */
-            .shift-off select { font-weight: bold !important; color: black !important; }
-            .shift-absent select { font-weight: bold !important; color: #ef4444 !important; } /* Red for LEAVE/HOLIDAY */
-
+            /* PRINT COMPACTING */
+            .compact-rows td { height: 26px !important; }
+            .compact-rows .shift-select { height: 14px !important; font-size: 8pt !important; }
+            .compact-rows .area-select { height: 12px !important; font-size: 7pt !important; }
+            .compact-rows .signatories { margin-top: 10px !important; gap: 10px !important; }
+            
             .signatories { margin-top: 15px !important; gap: 20px !important; padding: 0 10px !important; page-break-inside: avoid; }
             .sig-block { border-top: none !important; } 
         }
@@ -303,6 +254,7 @@
             <option value="Security">Security</option>
             <option value="Admin">Admin</option>
             <option value="eClaims">eClaims</option>
+            <option value="Ambulance Driver">Ambulance Driver</option>
         </select>
         <input type="password" id="password" placeholder="Password">
         <button onclick="login()">Sign In</button>
@@ -358,7 +310,7 @@
         <span id="labelText">Schedule for: </span>
     </div>
 
-    <div class="table-container">
+    <div class="table-container" id="tableWrapper">
         <table id="schedule">
             <thead>
                 <tr>
@@ -405,9 +357,7 @@
 
 <script>
 const scriptURL = "https://script.google.com/macros/s/AKfycbzDcIGGrqqI5bjq8RQXxVdE8YSiKL6xZxS6cbY6YUWiHxC0PVT0qkvWgOhNlINcioSB/exec"; 
-
-const defaultUsers = { eClaims:"1234", Nursing:"1234", Radiology:"1234", Laboratory:"1234", Pharmacy:"1234", Billing:"1234", Philhealth:"1234", Maintenance:"1234", Dietary:"1234", Malasakit:"1234", Security:"1234", Admin:"1234" };
-
+const defaultUsers = { eClaims:"1234", Nursing:"1234", Radiology:"1234", Laboratory:"1234", Pharmacy:"1234", Billing:"1234", Philhealth:"1234", Maintenance:"1234", Dietary:"1234", Malasakit:"1234", Security:"1234", Admin:"1234", "Ambulance Driver":"1234" };
 const defaultLogoLeft = "https://image2url.com/r2/bucket2/images/1767683769748-141f8d8b-106a-4a3e-ab18-1e7dcd404fc3.png";
 const defaultLogoRight = "https://image2url.com/r2/bucket2/images/1767683797358-168f3408-577e-4a03-b2fb-3eda96492c1b.png";
 
@@ -456,7 +406,7 @@ async function changePassword() {
 
 function logout(){ location.reload(); }
 
-const departments=["eClaims","Nursing","Radiology","Laboratory","Pharmacy","Billing","Philhealth","Maintenance","Dietary","Malasakit","Security"];
+const departments=["Nursing","Radiology","Laboratory","eClaims","Pharmacy","Billing","Philhealth","Maintenance","Dietary","Malasakit","Security","Ambulance Driver"];
 
 function renderDeptButtons(){
     const container=document.getElementById("departmentButtons");
@@ -508,8 +458,9 @@ let today = new Date();
 currentSaturday = new Date(today);
 currentSaturday.setDate(today.getDate() - (today.getDay() === 6 ? 0 : today.getDay() + 1));
 
-const shifts=["","7-3","3-11","11-7","8-5","OFF","HOLIDAY","LEAVE","7-3/11-7","OFF/11-7",];
-    
+const shifts=["","7-3","3-11","11-7","8-5","OFF","HOLIDAY","LEAVE","7am-7pm","7pm-7am","7-3/11-7","OFF/11-7",];
+const assignmentAreas = ["", "ER", "WARD", "OPD", "CR"];
+
 function updateWeekDisplay(){
     const end=new Date(currentSaturday); end.setDate(end.getDate()+6);
     const rangeText = `${currentSaturday.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'})} — ${end.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'})}`;
@@ -527,17 +478,36 @@ function updateWeekDisplay(){
 
 function bulkFillRow(btn) {
     const row = btn.closest('tr');
-    const firstShift = row.cells[1].querySelector('select').value;
-    const selects = row.querySelectorAll('select');
-    selects.forEach((sel, index) => { if(index > 0) { sel.value = firstShift; setShiftColor(sel, sel.parentElement); } });
-    saveWeekData(); updateTallies();
+    const firstCell = row.cells[1];
+    const firstShift = firstCell.querySelector('.shift-select').value;
+    const firstArea = firstCell.querySelector('.area-select').value;
+    for(let i=1; i<=7; i++) {
+        const s = row.cells[i].querySelector('.shift-select');
+        const a = row.cells[i].querySelector('.area-select');
+        s.value = firstShift;
+        a.value = firstArea;
+        setShiftColor(s, row.cells[i]);
+    }
+    saveWeekData();
+    updateTallies();
 }
 
 function clearWeekShifts() {
     if(currentDeptView !== currentDept) return;
-    if(confirm("Clear shifts for this week?")) {
-        document.querySelectorAll("#schedule tbody select").forEach(sel => { sel.value = ""; setShiftColor(sel, sel.parentElement); });
+    if(confirm("Clear all shifts & areas for this week?")) {
+        document.querySelectorAll("#schedule tbody .shift-select").forEach(sel => { sel.value = ""; setShiftColor(sel, sel.parentElement.parentElement); });
+        document.querySelectorAll("#schedule tbody .area-select").forEach(sel => { sel.value = ""; });
         saveWeekData(); updateTallies();
+    }
+}
+
+function checkAutoCompact() {
+    const rowCount = document.querySelectorAll("#schedule tbody tr").length;
+    const wrapper = document.getElementById("tableWrapper");
+    if (rowCount > 10) {
+        wrapper.classList.add("compact-rows");
+    } else {
+        wrapper.classList.remove("compact-rows");
     }
 }
 
@@ -558,12 +528,24 @@ function addRow(data={}){
 
     for(let i=0;i<7;i++){
         const td=document.createElement("td");
+        const container = document.createElement("div");
+        container.className = "cell-stack";
         const sel=document.createElement("select");
+        sel.className = "shift-select";
         shifts.forEach(s=>sel.add(new Option(s,s)));
         sel.value=data.shifts?.[i]||"";
         sel.disabled = currentDeptView!==currentDept;
         sel.onchange=()=>{ setShiftColor(sel,td); saveWeekData(); updateTallies(); };
-        setShiftColor(sel,td); td.appendChild(sel);
+        setShiftColor(sel,td); 
+        container.appendChild(sel);
+        const areaSel = document.createElement("select");
+        areaSel.className = "area-select";
+        assignmentAreas.forEach(a => areaSel.add(new Option(a, a)));
+        areaSel.value = data.areas?.[i] || "";
+        areaSel.disabled = currentDeptView !== currentDept;
+        areaSel.onchange = () => saveWeekData();
+        container.appendChild(areaSel);
+        td.appendChild(container);
         if(i === 0 && currentDeptView === currentDept) {
             const b = document.createElement("button");
             b.className = "bulk-fill-btn"; b.innerHTML = "⧉";
@@ -571,24 +553,20 @@ function addRow(data={}){
         }
         tr.appendChild(td);
     }
-    
-    // Remarks Column
     const remTd = document.createElement("td");
     remTd.className = "remarks-cell";
     remTd.contentEditable = (currentDeptView===currentDept);
     remTd.innerText = data.remarks || "";
     remTd.onblur = saveWeekData;
     tr.appendChild(remTd);
-
-    // Delete Button Column
     const act=document.createElement("td"); act.style.textAlign="center";
     const del=document.createElement("button"); del.innerHTML="&times;"; del.className="btn-delete";
-    del.onclick=()=>{ tr.remove(); saveWeekData(); updateTallies(); };
+    del.onclick=()=>{ tr.remove(); saveWeekData(); updateTallies(); checkAutoCompact(); };
     if(currentDeptView===currentDept) act.appendChild(del);
     tr.appendChild(act);
-    
     document.querySelector("#schedule tbody").appendChild(tr);
     updateTallies();
+    checkAutoCompact();
 }
 
 function updateTallies() {
@@ -597,7 +575,7 @@ function updateTallies() {
     for(let i=0; i<7; i++) {
         let am=0, day=0, pm=0, nt=0;
         document.querySelectorAll(`#schedule tbody tr`).forEach(row => {
-            let selectEl = row.cells[i+1].querySelector("select");
+            let selectEl = row.cells[i+1].querySelector(".shift-select");
             if(selectEl){
                 let val = selectEl.value;
                 if(val === "7-3") am++; if(val === "8-5") day++; if(val === "3-11") pm++; if(val === "11-7") nt++;
@@ -610,13 +588,13 @@ function updateTallies() {
 }
 
 function setShiftColor(sel, td) {
-    td.className = "";
+    td.classList.remove("shift-am", "shift-pm", "shift-night", "shift-day", "shift-off", "shift-absent");
+    td.style.backgroundColor = "";
     if (sel.value === "7-3") td.classList.add("shift-am");
     else if (sel.value === "3-11") td.classList.add("shift-pm");
     else if (sel.value === "11-7") td.classList.add("shift-night");
     else if (sel.value === "8-5") td.classList.add("shift-day");
-    // Add this line for the new shift
-    else if (sel.value === "7-3/11-7") td.style.backgroundColor = "#ccfbf1"; 
+    else if (sel.value === "7-3/11-7") td.style.backgroundColor = "#ccfbf1";
     else if (sel.value === "OFF") td.classList.add("shift-off");
     else if (sel.value === "HOLIDAY" || sel.value === "LEAVE") td.classList.add("shift-absent");
 }
@@ -628,7 +606,8 @@ function saveWeekData(){
     scheduleData[weekKey][currentDeptView]=rows.map(r=>({
         name: r.querySelector(".staff-name").innerText,
         role: r.querySelector(".staff-role").innerText,
-        shifts: [...Array(7)].map((_,i)=>r.cells[i+1].querySelector("select").value),
+        shifts: [...Array(7)].map((_,i)=>r.cells[i+1].querySelector(".shift-select").value),
+        areas: [...Array(7)].map((_,i)=>r.cells[i+1].querySelector(".area-select").value),
         remarks: r.cells[8].innerText
     }));
     if(currentDeptView === currentDept) {
@@ -649,7 +628,6 @@ function loadWeekData(){
     if(rows.length === 0) { for(let i=0; i<5; i++) addRow({}); } else { rows.forEach(r=>addRow(r)); }
     const isEd = (currentDeptView === currentDept);
     document.getElementById("copyBtn").style.display = isEd ? "block" : "none";
-
     document.getElementById("deptNotes").contentEditable = isEd;
     document.getElementById("deptNotes").innerText = departmentNotes[currentDeptView] || "Enter department notes here...";
     ["preparedByName", "preparedByTitle", "approvedByName", "approvedByTitle"].forEach(id => document.getElementById(id).contentEditable = isEd);
@@ -660,6 +638,7 @@ function loadWeekData(){
         document.getElementById("approvedByName").innerText = sigs.apprName;
         document.getElementById("approvedByTitle").innerText = sigs.apprTitle;
     }
+    checkAutoCompact();
 }
 
 function copyStaffFromPrevWeek() {
@@ -667,11 +646,9 @@ function copyStaffFromPrevWeek() {
     const prevDate = new Date(currentSaturday);
     prevDate.setDate(prevDate.getDate() - 7);
     const prevKey = prevDate.toDateString();
-    
     const prevStaff = scheduleData[prevKey]?.[currentDeptView];
-    
     if (prevStaff && prevStaff.length > 0) {
-        if(confirm("Import " + prevStaff.length + " staff from " + prevKey + "? (Remarks will be blank)")) {
+        if(confirm("Import " + prevStaff.length + " staff?")) {
             const tbody = document.querySelector("#schedule tbody");
             tbody.innerHTML = "";
             prevStaff.forEach(staff => {
@@ -679,15 +656,14 @@ function copyStaffFromPrevWeek() {
                     name: staff.name,
                     role: staff.role,
                     shifts: ["","","","","","",""],
-                    remarks: "" // Keep remarks blank for next week as requested
+                    areas: ["","","","","","",""],
+                    remarks: "" 
                 });
             });
             saveWeekData();
             alert("Staff list imported!");
         }
-    } else {
-        alert("No staff data found in the previous week.");
-    }
+    } else { alert("No staff data found in the previous week."); }
 }
 
 function prevWeek(){ saveWeekData(); currentSaturday.setDate(currentSaturday.getDate()-7); updateWeekDisplay(); }
@@ -698,7 +674,7 @@ function goCurrentWeek(){
     currentSaturday = d; updateWeekDisplay();
 }
 
-function showHelp() { alert("LDH Portal Guide: Add Staff, Bulk Fill (⧉), Remarks Column, and Save Changes to sync."); }
+function showHelp() { alert("LDH Guide: Add Staff, Select Shift (Top), Select Area (Bottom), Save Changes."); }
 function exportExcel(){ XLSX.writeFile(XLSX.utils.table_to_book(document.getElementById("schedule")),"Schedule.xlsx"); }
 
 async function saveToLocalStorage() {
@@ -757,4 +733,3 @@ initializeApp();
 </script>
 </body>
 </html>
-
