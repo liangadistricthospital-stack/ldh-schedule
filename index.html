@@ -508,8 +508,8 @@ let today = new Date();
 currentSaturday = new Date(today);
 currentSaturday.setDate(today.getDate() - (today.getDay() === 6 ? 0 : today.getDay() + 1));
 
-const shifts=["","7-3","3-11","11-7","8-5","7-3/11-7","OFF","HOLIDAY","LEAVE"];
-
+const shifts=["","7-3","3-11","11-7","8-5","OFF","HOLIDAY","LEAVE","7-3/11-7","OFF/11-7",];
+    
 function updateWeekDisplay(){
     const end=new Date(currentSaturday); end.setDate(end.getDate()+6);
     const rangeText = `${currentSaturday.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'})} — ${end.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'})}`;
@@ -757,3 +757,4 @@ initializeApp();
 </script>
 </body>
 </html>
+
