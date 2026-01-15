@@ -389,6 +389,7 @@ function hideLoading() { document.getElementById("loadingOverlay").style.display
 
 function getActivePassword(dept) { return customPasswords[dept] || defaultUsers[dept]; }
 
+// --- LOGIN FUNCTION (Ensure this is not missing!) ---
 function login(){
     const dept = document.getElementById("departmentSelect").value;
     const pass = document.getElementById("password").value;
@@ -442,7 +443,8 @@ function renderDeptButtons(){
 }
 
 function handleLogo(input, side) {
-    if (currentDept !== "Admin" && currentDeptView !== currentDept) { alert("You can only change logos for your own department!"); return; }
+    if (currentDept !== "Admin" && currentDeptView !== currentDept) { alert("You can only change logos for your own department!");
+    return; }
     const file = input.files[0];
     if (file) {
         const reader = new FileReader();
@@ -456,11 +458,29 @@ function handleLogo(input, side) {
     }
 }
 
+// --- UPDATED LOAD LOGOS WITH RADIOLOGY URL ---
 function loadLogos() {
     const leftDisplay = document.getElementById("logoLeftDisplay");
     const rightDisplay = document.getElementById("logoRightDisplay");
-    const leftLogo = (departmentLogos.global && departmentLogos.global.left) ? departmentLogos.global.left : defaultLogoLeft;
-    const rightLogo = (departmentLogos.global && departmentLogos.global.right) ? departmentLogos.global.right : defaultLogoRight;
+    
+    // 1. SET YOUR RADIOLOGY URL HERE
+    const radiologyLeftURL = "https://image2url.com/r2/default/images/1768465482151-b6885e6b-1410-499f-8cc1-dba7e7e7e6e1.png"; 
+
+    let leftLogo;
+    
+    // 2. LOGIC: If looking at Radiology, use specific URL. Otherwise use global/default.
+    if (currentDeptView === "Radiology") {
+        leftLogo = radiologyLeftURL;
+    } else {
+        leftLogo = (departmentLogos.global && departmentLogos.global.left) 
+                   ? departmentLogos.global.left 
+                   : defaultLogoLeft;
+    }
+
+    const rightLogo = (departmentLogos.global && departmentLogos.global.right) 
+                      ? departmentLogos.global.right 
+                      : defaultLogoRight;
+
     leftDisplay.innerHTML = `<img src="${leftLogo}">`;
     leftDisplay.classList.remove('logo-placeholder');
     rightDisplay.innerHTML = `<img src="${rightLogo}">`;
