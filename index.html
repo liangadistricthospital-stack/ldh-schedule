@@ -239,7 +239,7 @@
     .compact-rows .area-select { height: 12px !important; font-size: 7pt !important; }
     .compact-rows .signatories { margin-top: 10px !important; gap: 10px !important; }
     
-    .signatories { margin-top: 15px !important; gap: 20px !important; padding: 0 10px !important; page-break-inside: avoid; }
+    .signatories { margin-top: 50px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjusted for dynamic columns */ gap: 40px; padding: 20px; }
     .sig-block { border-top: none !important; } 
 }
     </style>
@@ -355,17 +355,23 @@
         </div>
     </div>
 
-    <div class="signatories">
-        <div class="sig-block" id="blockPrep">
-            <div class="sig-label">Prepared by: <span class="sig-locked" id="lockPrep"></span></div>
-            <strong contenteditable="true" id="preparedByName">Michael Dave T. Ebarle, RN</strong><br>
-            <span contenteditable="true" id="preparedByTitle" style="color:#64748b; font-size: 13px;">eClaims Processor / Nurse II</span>
-        </div>
-        <div class="sig-block" id="blockAppr">
-            <div class="sig-label">Approved by: <span class="sig-locked" id="lockAppr"></span></div>
-            <strong contenteditable="true" id="approvedByName">Glaiza Ann O. Tamondong, MD, DFM</strong><br>
-            <span contenteditable="true" id="approvedByTitle" style="color:#64748b; font-size: 13px;">Chief of Hospital I</span>
-        </div>
+<div class="signatories">
+    <div class="sig-block" id="blockPrep">
+        <div class="sig-label">Prepared by: <span class="sig-locked" id="lockPrep"></span></div>
+        <strong contenteditable="true" id="preparedByName">Michael Dave T. Ebarle, RN</strong><br>
+        <span contenteditable="true" id="preparedByTitle" style="color:#64748b; font-size: 13px;">eClaims Processor / Nurse II</span>
+    </div>
+
+    <div class="sig-block" id="blockNoted" style="display: none;">
+        <div class="sig-label">Noted by:</div>
+        <strong contenteditable="true" id="notedByName">Name Here</strong><br>
+        <span contenteditable="true" id="notedByTitle" style="color:#64748b; font-size: 13px;">Designation</span>
+    </div>
+
+    <div class="sig-block" id="blockAppr">
+        <div class="sig-label">Approved by: <span class="sig-locked" id="lockAppr"></span></div>
+        <strong contenteditable="true" id="approvedByName">Glaiza Ann O. Tamondong, MD, DFM</strong><br>
+        <span contenteditable="true" id="approvedByTitle" style="color:#64748b; font-size: 13px;">Chief of Hospital I</span>
     </div>
 </div>
 
@@ -579,11 +585,6 @@ function addRow(data={}){
         areaSel.value = data.areas?.[i] || "";
         areaSel.disabled = (currentDept !== "Admin" && currentDeptView !== currentDept)
         areaSel.onchange = () => saveWeekData();
-        // ADD THIS BLOCK: Hide areas for specific departments
-        const deptsWithoutAreas = ["Radiology", "Pharmacy", "eClaims", "Billing", "Philhealth", "Dietary", "Malasakit"];
-        if (deptsWithoutAreas.includes(currentDeptView)) {
-            areaSel.style.display = "none";
-        }
         container.appendChild(areaSel);
         td.appendChild(container);
         if(i === 0 && isEditable) {
@@ -654,6 +655,8 @@ function saveWeekData(){
         globalSignatories[currentDeptView] = {
             prepName: document.getElementById("preparedByName").innerText,
             prepTitle: document.getElementById("preparedByTitle").innerText,
+            notedName: document.getElementById("notedByName").innerText,
+            notedTitle: document.getElementById("notedByTitle").innerText,
             apprName: document.getElementById("approvedByName").innerText,
             apprTitle: document.getElementById("approvedByTitle").innerText
         };
@@ -667,14 +670,28 @@ function loadWeekData(){
     const rows = (scheduleData[weekKey]?.[currentDeptView]||[]);
     if(rows.length === 0) { for(let i=0; i<5; i++) addRow({}); } else { rows.forEach(r=>addRow(r)); }
     const isEd = (currentDept === "Admin" || currentDeptView === currentDept);
+    // Toggle Noted By visibility only for Laboratory
+    const notedBlock = document.getElementById("blockNoted");
+    if (currentDeptView === "Laboratory") {
+        notedBlock.style.display = "block";
+    } else {
+        notedBlock.style.display = "none";
+    }
     document.getElementById("copyBtn").style.display = isEd ? "block" : "none";
     document.getElementById("deptNotes").contentEditable = isEd;
     document.getElementById("deptNotes").innerText = departmentNotes[currentDeptView] || "Enter department notes here...";
-    ["preparedByName", "preparedByTitle", "approvedByName", "approvedByTitle"].forEach(id => document.getElementById(id).contentEditable = isEd);
+    // Set editability
+    ["preparedByName", "preparedByTitle", "notedByName", "notedByTitle", "approvedByName", "approvedByTitle"].forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.contentEditable = isEd;
+    });
+
     const sigs = globalSignatories[currentDeptView];
     if(sigs){
         document.getElementById("preparedByName").innerText = sigs.prepName;
         document.getElementById("preparedByTitle").innerText = sigs.prepTitle;
+        document.getElementById("notedByName").innerText = sigs.notedName || "Name Here";
+        document.getElementById("notedByTitle").innerText = sigs.notedTitle || "Designation";
         document.getElementById("approvedByName").innerText = sigs.apprName;
         document.getElementById("approvedByTitle").innerText = sigs.apprTitle;
     }
