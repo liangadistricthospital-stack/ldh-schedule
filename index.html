@@ -585,6 +585,13 @@ function addRow(data={}){
         areaSel.value = data.areas?.[i] || "";
         areaSel.disabled = (currentDept !== "Admin" && currentDeptView !== currentDept)
         areaSel.onchange = () => saveWeekData();
+        
+        // --- NEW LOGIC TO HIDE AREA DROPDOWN ---
+        const hiddenDepts = ["Radiology", "eClaims", "Pharmacy", "Billing", "Philhealth", "Malasakit"];
+        if (hiddenDepts.includes(currentDeptView)) {
+            areaSel.style.display = "none";
+        }
+
         container.appendChild(areaSel);
         td.appendChild(container);
         if(i === 0 && isEditable) {
