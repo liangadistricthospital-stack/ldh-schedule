@@ -219,6 +219,11 @@
         .compact-rows .shift-select { height: 20px; font-size: 12px; }
         .compact-rows .area-select { height: 15px; font-size: 9px; }
 
+        /* Highlights only the Saturday and Sunday header cells on screen */
+        #satHeader, #sunHeader { background-color: rgba(16, 185, 129, 0.1) !important; /* Light LDH Green */
+        border-bottom: 2px solid var(--primary) !important;
+        color: var(--primary-dark) !important; }
+
         @media print {
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
     #departmentButtons, .action-bar, .btn-delete, #loginPage, th:last-child, td:last-child, .tally-container, .help-btn, .notes-container, .bulk-fill-btn, #loadingOverlay, .week-header-label, .copy-prev-link { display: none !important; }
@@ -840,3 +845,4 @@ initializeApp();
 </script>
 </body>
 </html>
+
