@@ -219,10 +219,16 @@
         .compact-rows .shift-select { height: 20px; font-size: 12px; }
         .compact-rows .area-select { height: 15px; font-size: 9px; }
 
-        /* Highlights only the Saturday and Sunday header cells on screen */
-        #satHeader, #sunHeader { background-color: rgba(16, 185, 129, 0.1) !important; /* Light LDH Green */
-        border-bottom: 2px solid var(--primary) !important;
-        color: var(--primary-dark) !important; }
+/* Highlights the text of Saturday and Sunday headers in red on screen */
+#satHeader, #sunHeader {
+    color: var(--danger) !important;
+}
+
+/* Ensures the day numbers inside these headers also turn red */
+#satHeader span, #sunHeader span {
+    color: var(--danger) !important;
+    opacity: 1 !important; /* Makes the date number as bright as the day name */
+}
 
         @media print {
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
@@ -845,4 +851,5 @@ initializeApp();
 </script>
 </body>
 </html>
+
 
