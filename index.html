@@ -84,6 +84,31 @@
         .header-box h2 { font-size: 16px; color: var(--secondary); margin: 5px 0; text-transform: uppercase; letter-spacing: 2px; }
         #weekDisplay { font-size: 13px; font-weight: 600; color: #64748b; margin-top: 5px; }
 
+        /* Toast Notification Styling */
+#toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10001;
+}
+.toast {
+    background: #1e293b;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    margin-top: 10px;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
         .logo-container {
             width: 100px;
             height: 100px; border: 2px dashed #e2e8f0;
@@ -245,6 +270,7 @@
     </style>
 </head>
 <body>
+    <div id="toast-container"></div>
 
 <div id="loadingOverlay">
     <div class="spinner"></div>
@@ -754,9 +780,26 @@ async function saveToLocalStorage() {
     localStorage.setItem("LDH_Data_V3", JSON.stringify(dataToSave));
     try {
         await fetch(scriptURL, { method: "POST", mode: "no-cors", body: JSON.stringify(dataToSave) });
-        alert("Sync Complete!");
+        showToast("Sync Complete!")
     } catch (e) { alert("Local save ok, Cloud sync failed."); }
     finally { hideLoading(); }
+}
+
+function showToast(message, duration = 3000) {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerText = message;
+    container.appendChild(toast);
+
+    // Trigger animation
+    setTimeout(() => toast.classList.add('show'), 100);
+
+    // Remove after duration
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, duration);
 }
 
 async function loadFromCloud() {
