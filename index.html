@@ -262,6 +262,10 @@
     .shift-off .shift-select { 
         font-weight: bold !important; 
     }
+
+     .shift-OB .shift-select { 
+        font-weight: bold !important; 
+    }
     
     /* Bold and Red LEAVE / HOLIDAY */
     .shift-absent .shift-select { 
@@ -535,7 +539,7 @@ let today = new Date();
 currentSaturday = new Date(today);
 currentSaturday.setDate(today.getDate() - (today.getDay() === 6 ? 0 : today.getDay() + 1));
 
-const shifts=["","7-3","3-11","11-7","8-5","OFF","HOLIDAY","LEAVE","7am-7pm","7pm-7am","7-3/11-7","OFF/11-7",];
+const shifts=["","7-3","3-11","11-7","8-5","OFF","HOLIDAY","LEAVE","OB","7am-7pm","7pm-7am","7-3/11-7","OFF/11-7",];
 const assignmentAreas = ["", "ER", "WARD", "OPD", "CR"];
 
 function updateWeekDisplay(){
@@ -673,7 +677,7 @@ function updateTallies() {
 }
 
 function setShiftColor(sel, td) {
-    td.classList.remove("shift-am", "shift-pm", "shift-night", "shift-day", "shift-off", "shift-absent");
+    td.classList.remove("shift-am", "shift-pm", "shift-night", "shift-day", "shift-off", "shift-OB", "shift-absent");
     td.style.backgroundColor = "";
     if (sel.value === "7-3") td.classList.add("shift-am");
     else if (sel.value === "3-11") td.classList.add("shift-pm");
@@ -681,6 +685,7 @@ function setShiftColor(sel, td) {
     else if (sel.value === "8-5") td.classList.add("shift-day");
     else if (sel.value === "7-3/11-7") td.style.backgroundColor = "#ccfbf1";
     else if (sel.value === "OFF") td.classList.add("shift-off");
+    else if (sel.value === "OB") td.classList.add("shift-OB");
     else if (sel.value === "HOLIDAY" || sel.value === "LEAVE") td.classList.add("shift-absent");
 }
 
@@ -851,5 +856,6 @@ initializeApp();
 </script>
 </body>
 </html>
+
 
 
